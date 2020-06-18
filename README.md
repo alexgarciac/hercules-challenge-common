@@ -1,0 +1,1 @@
+# hercules-challenge-common
