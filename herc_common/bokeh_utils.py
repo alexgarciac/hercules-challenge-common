@@ -34,7 +34,7 @@ class BokehHistogram():
             hover_fill_alpha=1.0, hover_fill_color=self.color_hover)
 
         hover = HoverTool(tooltips=[('Interval', '@interval'),
-                                    ('Count', str("@" + "num_chars_text"))])
+                                    ('Count', str("@" + column))])
         self.plot.add_tools(hover)
         show(self.plot, notebook_handle=notebook_handle)
     
