@@ -9,10 +9,11 @@ def base_scoring_function(vectorizer, texts, model, X, top_n=10):
                                    vocab=np.array([x for x in vectorizer.vocabulary_.keys()]), 
                                    texts=texts, return_mean=True)
 
-def compute_model_results(model_cls, X, scoring_func, min_topics, max_topics, **kwargs):
+def compute_model_results(model_cls, X, scoring_func, min_topics=7,
+                          max_topics=30, seed=42, **kwargs):
     res = {}
     for num_topics in range(min_topics, max_topics):
-        model = model_cls(n_components=num_topics, random_state=RANDOM_SEED, **kwargs)
+        model = model_cls(n_components=num_topics, random_state=seed, **kwargs)
         model.fit(X)
         score = scoring_func(model, X)
         res[model] = score

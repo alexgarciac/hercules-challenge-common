@@ -4,7 +4,7 @@ with open("README.md", 'r') as f:
       readme_contents = f.read()
 
 setuptools.setup(name='herc_challenge_common',
-      version='0.2.0',
+      version='0.2.1',
       author="Alejandro González Hevia",
       author_email="alejandrgh11@gmail.com",
       description="",
