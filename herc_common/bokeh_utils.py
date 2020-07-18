@@ -2,8 +2,46 @@ import numpy as np
 import pandas as pd
 
 from bokeh.io import export_svgs, show
+from bokeh.models import (BoxZoomTool, Circle, HoverTool,
+                          MultiLine, Plot, Range1d, ResetTool,)
 from bokeh.models.tools import HoverTool
-from bokeh.plotting import figure, ColumnDataSource
+from bokeh.palettes import Spectral4
+from bokeh.plotting import figure, from_networkx, ColumnDataSource
+
+
+def build_graph_plot(G, title=""):
+    """ Return a Bokeh plot of the given networkx graph
+
+    Parameters
+    ----------
+    G: :obj:`networkx.Graph`
+        Networkx graph instance to be plotted.
+    title: str
+        Title of the final plot
+    
+    Returns
+    -------
+    :obj:`bokeh.models.plot`
+        Bokeh plot of the graph.
+    """
+    plot = Plot(plot_width=400, plot_height=400,
+                x_range=Range1d(-1.1, 1.1), y_range=Range1d(-1.1, 1.1))
+    plot.title.text = title
+    
+    node_attrs = {}
+    for node in G.nodes(data=True):
+        node_color = Spectral4[node[1]['n']]
+        node_attrs[node[0]] = node_color
+    nx.set_node_attributes(G, node_attrs, "node_color")
+
+    node_hover_tool = HoverTool(tooltips=[("Label", "@label"), ("n", "@n")])
+    plot.add_tools(node_hover_tool, BoxZoomTool(), ResetTool())
+
+    graph_renderer = from_networkx(G, nx.spring_layout, scale=1, center=(0, 0))
+    graph_renderer.node_renderer.glyph = Circle(size=15, fill_color="node_color")
+    graph_renderer.edge_renderer.glyph = MultiLine(line_alpha=0.8, line_width=1)
+    plot.renderers.append(graph_renderer)
+    return plot
 
 
 class BokehHistogram():
