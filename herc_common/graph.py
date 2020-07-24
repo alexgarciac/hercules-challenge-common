@@ -31,7 +31,7 @@ def get_centrality_algorithm_results(g, algorithm, stop_uris, top_n):
     """
     metrics = algorithm(g)
     metrics = {key: val for key, val in metrics.items()
-                and key not in stop_uris}
+                if key not in stop_uris}
     best_qids = sorted(metrics, key=metrics.get, reverse=True)[:top_n]
     return [(g.nodes[qid], metrics[qid]) for qid in best_qids]
 
