@@ -3,11 +3,11 @@ import numpy as np
 from tmtoolkit.topicmod.evaluate import metric_coherence_gensim
 
 
-def base_scoring_function(vectorizer, texts, model, X, top_n=10):
-    return metric_coherence_gensim(measure='u_mass', dtm=X, 
+def base_scoring_function(vectorizer, texts, model, X, top_n=10, measure='u_mass'):
+    return metric_coherence_gensim(measure=measure, dtm=X, 
                                    topic_word_distrib=model.components_,
                                    vocab=np.array([x for x in vectorizer.vocabulary_.keys()]), 
-                                   texts=texts, return_mean=True)
+                                   texts=texts, return_mean=True, top_n=top_n)
 
 def compute_model_results(model_cls, X, scoring_func, min_topics=7,
                           max_topics=30, seed=42, **kwargs):
