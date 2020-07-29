@@ -90,6 +90,30 @@ def build_graph_plot(G, title=""):
     return column(plot,multi_select)
 
 
+def get_linear_plot(results,title,line_color):
+    n_components = []
+    values = []
+    for key in results:
+        n_components.append(key.n_components)
+        values.append(results[key])
+
+
+    plot = figure(
+        title=title,
+        x_axis_label='n_components',
+        y_axis_label='result',
+        plot_width=1400, 
+        plot_height=400
+    )
+
+    plot.line(n_components,values,color=line_color,line_width=4)
+
+    return plot
+
+
+def draw_results(results,title,line_color):
+    show(get_linear_plot(results,title,line_color))
+
 class BokehHistogram():
     def __init__(self, color_fill, color_hover, fill_alpha=0.7,
                  height=600, width=600, bins=20):
