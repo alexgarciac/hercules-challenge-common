@@ -102,7 +102,7 @@ def get_linear_plot(results,title,line_color):
         title=title,
         x_axis_label='n_components',
         y_axis_label='result',
-        plot_width=1000, 
+        plot_width=1400, 
         plot_height=400
     )
 
