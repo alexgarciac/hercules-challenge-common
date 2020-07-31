@@ -2,6 +2,7 @@ import json
 import logging
 import networkx as nx
 import networkx.algorithms as nxa
+import pdb
 import requests
 
 from herc_common.utils import empty_if_keyerror, WIKIDATA_BASE
@@ -95,7 +96,7 @@ class WikidataGraphBuilder():
     
     def _add_wd_node_info(self, graph, term_id, prev_node, curr_hop):
         logger.debug("Visiting entity '%s' - Curr hop: %d", term_id, curr_hop)
-        if curr_hop > self.max_hops or term_id == 'Q4167836':
+        if curr_hop > self.max_hops or term_id in ['Q4167410', 'Q4167836']:
             return
         
         # call wikidata API for uri
@@ -118,6 +119,9 @@ class WikidataGraphBuilder():
 
         if prev_node is not None and not graph.has_edge(prev_node, term_id):
             graph.add_edge(prev_node, term_id)
+        
+        if 'claims' not in entity_info:
+            pdb.set_trace()
         
         for claim_key, claim_values in entity_info['claims'].items():
             if claim_key not in self.props_to_expand:

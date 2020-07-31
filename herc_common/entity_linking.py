@@ -37,8 +37,8 @@ class WikidataEntityLinker(BaseEstimator, TransformerMixin):
         Returns
         -------
         (str, str)
-            Tuple where the first element is the name of the entity, and the second
-            one is its 'QID' from Wikidata after linking.
+            Tuple where the first element is the name of the entity,
+            and the second one is its 'QID' from Wikidata after linking.
         """
         if entity_label in self.linked_entities_cache:
             return (entity_label, self.linked_entities_cache[entity_label])
@@ -48,7 +48,14 @@ class WikidataEntityLinker(BaseEstimator, TransformerMixin):
         response = requests.get(url)
         if response.status_code != 200:
             raise Error()
-        content = json.loads(response.text)
+        
+        try:
+            content = json.loads(response.text)
+        except:
+            # invalid entity
+            self.linked_entities_cache[entity_label] = None
+            return self.link_entity(entity_label)
+
         search_results = content['search']
         if len(search_results) == 0:
             self.linked_entities_cache[entity_label] = None
