@@ -103,7 +103,8 @@ class WikidataGraphBuilder():
         endpoint = f"{WIKIDATA_BASE}/api.php?action=wbgetentities&ids={term_id}&languages=en&format=json"
         res = requests.get(endpoint)
         if res.status_code != 200:
-            logger.warning("There was an error calling endpoint for term %s", term_id)
+            logger.warning("There was an error calling endpoint for term %s: %s",
+                            term_id, res.content)
             raise Error()
         
         content = json.loads(res.text)
@@ -122,7 +123,7 @@ class WikidataGraphBuilder():
         
         if 'claims' not in entity_info:
             pdb.set_trace()
-        
+
         for claim_key, claim_values in entity_info['claims'].items():
             if claim_key not in self.props_to_expand:
                 continue
