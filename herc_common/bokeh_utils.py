@@ -4,10 +4,11 @@ import pandas as pd
 
 from bokeh.io import export_svgs, show
 from bokeh.models import (BoxZoomTool, Circle, HoverTool,
-                          MultiLine, Plot, Range1d, ResetTool,)
+                          MultiLine, Plot, Range1d, ResetTool,CustomJS,WheelZoomTool,PanTool,MultiSelect)
 from bokeh.models.tools import HoverTool
 from bokeh.palettes import Spectral4
 from bokeh.plotting import figure, from_networkx, ColumnDataSource
+from bokeh.layouts import column
 
 
 def build_graph_plot(G, title=""):
@@ -25,7 +26,8 @@ def build_graph_plot(G, title=""):
     :obj:`bokeh.models.plot`
         Bokeh plot of the graph.
     """
-    plot = Plot(plot_width=400, plot_height=400,
+
+    plot = Plot(plot_width=600, plot_height=450,
                 x_range=Range1d(-1.1, 1.1), y_range=Range1d(-1.1, 1.1))
     plot.title.text = title
     
@@ -36,14 +38,81 @@ def build_graph_plot(G, title=""):
     nx.set_node_attributes(G, node_attrs, "node_color")
 
     node_hover_tool = HoverTool(tooltips=[("Label", "@label"), ("n", "@n")])
-    plot.add_tools(node_hover_tool, BoxZoomTool(), ResetTool())
+    wheelZoom = WheelZoomTool()
+    plot.add_tools(node_hover_tool,PanTool(),wheelZoom, ResetTool())
+    plot.toolbar.active_scroll = wheelZoom
 
-    graph_renderer = from_networkx(G, nx.spring_layout, scale=1, center=(0, 0))
-    graph_renderer.node_renderer.glyph = Circle(size=15, fill_color="node_color")
+    graph_renderer = from_networkx(G,nx.spring_layout, k=0.3,iterations=200,scale=1, center=(0, 0))
+    graph_renderer.node_renderer.glyph = Circle(size=15,fill_color="node_color")
     graph_renderer.edge_renderer.glyph = MultiLine(line_alpha=0.8, line_width=1)
+    
     plot.renderers.append(graph_renderer)
+    
+    selectCallback = CustomJS(args = dict(graph_renderer=graph_renderer), code =
+            """
+            let new_data_nodes = Object.assign({},graph_renderer.node_renderer.data_source.data);
+            new_data_nodes['node_color'] = {};
+            let colors = ['#2b83ba','#ABDDA4','#fdae61'];
+            let ns = cb_obj.value.reduce((acc,v)=>{
+                if(v=='fullGraph'){
+                   acc.push(0);
+                   acc.push(1);
+                   acc.push(2);
+                }
+               if(v=='n0')acc.push(0);
+               if(v=='n1')acc.push(1);
+               if(v=='n2')acc.push(2);
+               return acc;
+            },[])
+
+
+            Object.keys(graph_renderer.node_renderer.data_source.data['node_color']).map((n,i)=>{
+                new_data_nodes['node_color'][i]='transparent';
+            })
+
+
+             ns.map(n=>{
+                Object.keys(graph_renderer.node_renderer.data_source.data['node_color']).map((g,i)=>{
+                    if(graph_renderer.node_renderer.data_source.data['n'][i]==n){
+                        new_data_nodes['node_color'][i]=colors[n];
+                    }
+                })
+            })
+
+            graph_renderer.node_renderer.data_source.data = new_data_nodes
+
+            """)
+    
+
+    multi_select = MultiSelect(title="Option:", options=[("fullGraph", "Full Graph"),("n0", "Seed Nodes"), ("n1", "N1"), ("n2", "N2")])
+    multi_select.js_on_change('value', selectCallback)
+
+    return column(plot,multi_select)
+
+
+def get_linear_plot(results,title,line_color):
+    n_components = []
+    values = []
+    for key in results:
+        n_components.append(key.n_components)
+        values.append(results[key])
+
+
+    plot = figure(
+        title=title,
+        x_axis_label='n_components',
+        y_axis_label='result',
+        plot_width=1400, 
+        plot_height=400
+    )
+
+    plot.line(n_components,values,color=line_color,line_width=4)
+
     return plot
 
+
+def draw_results(results,title,line_color):
+    show(get_linear_plot(results,title,line_color))
 
 class BokehHistogram():
     def __init__(self, color_fill, color_hover, fill_alpha=0.7,
