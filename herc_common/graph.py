@@ -109,6 +109,8 @@ class WikidataGraphBuilder():
         
         content = json.loads(res.text)
         entity_info = content['entities'][term_id]
+        if 'claims' not in entity_info:
+            return
         
         if term_id not in graph.nodes:
             graph.add_node(term_id)
@@ -120,9 +122,7 @@ class WikidataGraphBuilder():
 
         if prev_node is not None and not graph.has_edge(prev_node, term_id):
             graph.add_edge(prev_node, term_id)
-        
-        if 'claims' not in entity_info:
-            pdb.set_trace()
+
 
         for claim_key, claim_values in entity_info['claims'].items():
             if claim_key not in self.props_to_expand:
