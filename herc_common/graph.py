@@ -76,6 +76,7 @@ class WikidataGraphBuilder():
     """
 
     def __init__(self, max_hops=2, additional_props=None):
+        self.entities_cache = {}
         self.max_hops = max_hops
         self.props_to_expand = WIKIDATA_PROPS_EXPAND
         if additional_props:
@@ -99,16 +100,12 @@ class WikidataGraphBuilder():
         if curr_hop > self.max_hops or term_id in ['Q4167410', 'Q4167836']:
             return
         
-        # call wikidata API for uri
-        endpoint = f"{WIKIDATA_BASE}/api.php?action=wbgetentities&ids={term_id}&languages=en&format=json"
-        res = requests.get(endpoint)
-        if res.status_code != 200:
-            logger.warning("There was an error calling endpoint for term %s: %s",
-                            term_id, res.content)
-            raise Error()
-        
-        content = json.loads(res.text)
-        entity_info = content['entities'][term_id]
+        if term_id not in self.entities_cache:
+            entity_info = self._fetch_entity_info_of(term_id)
+            self.entities_cache[term_id] = entity_info
+        else:
+            entity_info = self.entities_cache[term_id]
+
         if 'claims' not in entity_info:
             return
         
@@ -135,3 +132,13 @@ class WikidataGraphBuilder():
                 
                 new_node_id = value['mainsnak']['datavalue']['value']['id']
                 self._add_wd_node_info(graph, new_node_id, term_id, curr_hop + 1)
+
+    def _fetch_entity_info_of(self, term_id):
+        endpoint = f"{WIKIDATA_BASE}/api.php?action=wbgetentities&ids={term_id}&languages=en&format=json"
+        res = requests.get(endpoint)
+        if res.status_code != 200:
+            logger.warning("There was an error calling endpoint for term %s: %s",
+                            term_id, res.content)
+            raise Error()
+        content = json.loads(res.text)
+        return content['entities'][term_id]
