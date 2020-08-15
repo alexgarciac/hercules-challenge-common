@@ -26,7 +26,7 @@ class Topic():
                      score, t_type)
 
     def __eq__(self, other):
-        if not isintance(other, Topic):
+        if not isinstance(other, Topic):
             return False
         return self.qid == other.qid
 
