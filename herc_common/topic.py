@@ -24,7 +24,15 @@ class Topic():
     def from_node(cls, n, score, t_type):
         return Topic(n['label'], n['qid'], n['desc'],
                      score, t_type)
-    
+
+    def __eq__(self, other):
+        if not isintance(other, Topic):
+            return False
+        return self.qid == other.qid
+
+    def __hash__(self):
+        return hash(self.qid)
+
     def __str__(self):
         return f"{self.label} ({self.qid})"
 
@@ -40,7 +48,7 @@ class LabelledTopicModel(BaseEstimator, TransformerMixin):
     labels : list of :obj:`Topic`
         List with the topics to be asigned to each one of the topics
         of the model.
-    num_topics_returned : int 
+    num_topics_returned : int
         Number of topics to be assigned to each text.
     """
 
@@ -49,13 +57,13 @@ class LabelledTopicModel(BaseEstimator, TransformerMixin):
         self.topic_model = topic_model
         self.topics = topics
         self.num_topics_returned = num_topics_returned
-    
+
     def fit(self, X, y=None):
         self.topic_model.fit(X)
-    
+
     def transform(self, X, *args, **kwargs):
         topic_distr = self.topic_model.transform(X)
-        best_topics_idx = [np.argsort(text_topics)[::-1] 
+        best_topics_idx = [np.argsort(text_topics)[::-1]
                            for text_topics in topic_distr]
         res = []
         for text_idx, text_topics in enumerate(best_topics_idx):
@@ -69,7 +77,7 @@ class LabelledTopicModel(BaseEstimator, TransformerMixin):
 
 
 class TopicCombiner(BaseEstimator, TransformerMixin):
-    """ 
+    """
 
     Parameters
     ----------
@@ -79,14 +87,16 @@ class TopicCombiner(BaseEstimator, TransformerMixin):
         self.max_num_topics = max_num_topics
         self.k = k
         self.l = l
-    
+
     def fit(self, X, y=None):
         return self
-    
+
     def transform(self, X, *args, **kwargs):
         res = []
         for doc_topics in X:
-            topic_scores = [topic.score * self.l 
+            # remove duplicates
+            doc_topics = list(set(doc_topics))
+            topic_scores = [topic.score * self.l
                             if topic.t_type =='ner'
                             else topic.score * self.k
                             for topic in doc_topics]
@@ -97,11 +107,11 @@ class TopicCombiner(BaseEstimator, TransformerMixin):
 
 
 class TopicLabeller(BaseEstimator, TransformerMixin):
-    """ 
+    """
 
     Parameters
     ----------
-    graph_builder : :obj:`GraphBuilder` 
+    graph_builder : :obj:`GraphBuilder`
         GraphBuilder instance used to build the neighbourhood graph
         of each seed term.
     r : callable
@@ -122,15 +132,15 @@ class TopicLabeller(BaseEstimator, TransformerMixin):
         self.r = r
         self.num_labels = num_labels_per_topic
         self.stop_uris = [] if stop_uris is None else stop_uris
-    
+
     def fit(self, X, y=None):
         return self
-    
+
     def transform(self, X, *args, **kwargs):
         pool = mp.Pool()
         results = pool.map(self.get_topic_labels, X)
         return results
-    
+
     def get_topic_labels(self, linked_entities):
         topic_neighbourhood = self.graph_builder.build_graph(linked_entities)
         subgraph = get_largest_connected_subgraph(topic_neighbourhood)

@@ -46,7 +46,7 @@ def _build_uri(entity_id):
 
 @empty_if_keyerror
 def _get_aliases(entity_info, lang='en'):
-    return [alias['value'] 
+    return [alias['value']
             for alias in entity_info['aliases'][lang]]
 
 
@@ -63,7 +63,7 @@ class WikidataGraphBuilder():
     """ Build a Wikidata graph from a given set of seed concepts.
 
     This class can be used to build a graph with Wikidata
-    
+
     Parameters
     ----------
     max_hops: int (default=2)
@@ -81,7 +81,7 @@ class WikidataGraphBuilder():
         self.props_to_expand = WIKIDATA_PROPS_EXPAND
         if additional_props:
             self.props_to_expand += additional_props
-    
+
     def build_graph(self, terms):
         """Build the graph for the given terms."""
         logger.info("Started building graph.")
@@ -94,12 +94,12 @@ class WikidataGraphBuilder():
                 self._add_wd_node_info(G, term_id, None, 0)
         logger.info("Finished building graph.")
         return G
-    
+
     def _add_wd_node_info(self, graph, term_id, prev_node, curr_hop):
         logger.debug("Visiting entity '%s' - Curr hop: %d", term_id, curr_hop)
-        if curr_hop > self.max_hops or term_id in ['Q4167410', 'Q4167836']:
+        if curr_hop > self.max_hops or term_id in ['Q4167410', 'Q4167836', 'Q37517']:
             return
-        
+
         if term_id not in self.entities_cache:
             entity_info = self._fetch_entity_info_of(term_id)
             self.entities_cache[term_id] = entity_info
@@ -108,7 +108,7 @@ class WikidataGraphBuilder():
 
         if 'claims' not in entity_info:
             return
-        
+
         if term_id not in graph.nodes:
             graph.add_node(term_id)
             #graph.nodes[term_id]['alias'] = _get_aliases(entity_info)
@@ -124,12 +124,12 @@ class WikidataGraphBuilder():
         for claim_key, claim_values in entity_info['claims'].items():
             if claim_key not in self.props_to_expand:
                 continue
-            
+
             for value in claim_values:
                 snaktype = value['mainsnak']['snaktype']
                 if snaktype in ['novalue', 'somevalue']:
                     continue
-                
+
                 new_node_id = value['mainsnak']['datavalue']['value']['id']
                 self._add_wd_node_info(graph, new_node_id, term_id, curr_hop + 1)
 
