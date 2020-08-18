@@ -169,7 +169,7 @@ class WikidataGraphBuilder():
                 self._add_wd_node_info(graph, new_node_id, term_id, curr_hop + 1)
 
     def _fetch_entity_info_of(self, term_id):
-        endpoint = f"{WIKIDATA_BASE}/api.php?action=wbgetentities&ids={term_id}&languages=en&format=json"
+        endpoint = f"{WIKIDATA_BASE}/api.php?action=wbgetentities&ids={term_id}&languages=en|es&format=json"
         res = requests.get(endpoint)
         if res.status_code != 200:
             logger.warning("There was an error calling endpoint for term %s: %s",
