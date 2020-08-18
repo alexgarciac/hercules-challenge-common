@@ -20,7 +20,7 @@ def build_graph_plot(G, title=""):
         Networkx graph instance to be plotted.
     title: str
         Title of the final plot
-    
+
     Returns
     -------
     :obj:`bokeh.models.plot`
@@ -30,7 +30,7 @@ def build_graph_plot(G, title=""):
     plot = Plot(plot_width=600, plot_height=450,
                 x_range=Range1d(-1.1, 1.1), y_range=Range1d(-1.1, 1.1))
     plot.title.text = title
-    
+
     node_attrs = {}
     for node in G.nodes(data=True):
         node_color = Spectral4[node[1]['n']]
@@ -45,9 +45,9 @@ def build_graph_plot(G, title=""):
     graph_renderer = from_networkx(G,nx.spring_layout, k=0.3,iterations=200,scale=1, center=(0, 0))
     graph_renderer.node_renderer.glyph = Circle(size=15,fill_color="node_color")
     graph_renderer.edge_renderer.glyph = MultiLine(line_alpha=0.8, line_width=1)
-    
+
     plot.renderers.append(graph_renderer)
-    
+
     selectCallback = CustomJS(args = dict(graph_renderer=graph_renderer), code =
             """
             let new_data_nodes = Object.assign({},graph_renderer.node_renderer.data_source.data);
@@ -82,7 +82,7 @@ def build_graph_plot(G, title=""):
             graph_renderer.node_renderer.data_source.data = new_data_nodes
 
             """)
-    
+
 
     multi_select = MultiSelect(title="Option:", options=[("fullGraph", "Full Graph"),("n0", "Seed Nodes"), ("n1", "N1"), ("n2", "N2")])
     multi_select.js_on_change('value', selectCallback)
@@ -102,7 +102,7 @@ def get_linear_plot(results,title,line_color):
         title=title,
         x_axis_label='n_components',
         y_axis_label='result',
-        plot_width=1400, 
+        plot_width=1400,
         plot_height=400
     )
 
@@ -124,20 +124,20 @@ class BokehHistogram():
         self.width = width
         self.bins = bins
         self.plot = None
-    
+
     def load_plot(self, df, column, title, x_label, y_label, notebook_handle=False):
         hist, edges = np.histogram(df[column], bins=self.bins)
         hist_df = pd.DataFrame({column: hist,
                                 "left": edges[:-1],
                                 "right": edges[1:]})
-        hist_df["interval"] = ["%d to %d" % (left, right) for left, 
+        hist_df["interval"] = ["%d to %d" % (left, right) for left,
                                 right in zip(hist_df["left"], hist_df["right"])]
         self.plot = figure(plot_height=self.height, plot_width=self.width,
                       title=title, x_axis_label=x_label, y_axis_label=y_label)
-        
+
         data_src = ColumnDataSource(hist_df)
-        self.plot.quad(bottom=0, top=column, left="left", 
-            right="right", source=data_src, fill_color=self.color_fill, 
+        self.plot.quad(bottom=0, top=column, left="left",
+            right="right", source=data_src, fill_color=self.color_fill,
             line_color="black", fill_alpha=self.fill_alpha,
             hover_fill_alpha=1.0, hover_fill_color=self.color_hover)
 
@@ -145,7 +145,7 @@ class BokehHistogram():
                                     ('Count', str("@" + column))])
         self.plot.add_tools(hover)
         show(self.plot, notebook_handle=notebook_handle)
-    
+
     def save_plot(self, file_name):
         if self.plot is None:
             print("There is nothing to save. You must load a plot first...")
@@ -154,5 +154,5 @@ class BokehHistogram():
             self.plot.output_backend = "svg"
             export_svgs(self.plot, filename=file_name)
         except Exception as e:
-            print("There was an error exporting the plot. Please verify that both " 
+            print("There was an error exporting the plot. Please verify that both "
                   + f"Selenium and Geckodriver are installed: {e}")

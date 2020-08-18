@@ -17,13 +17,14 @@ class Topic():
     labels: dict
     qid: str
     descs: dict
+    uris: list
     score: float
     t_type: str
 
     @classmethod
     def from_node(cls, n, score, t_type):
         return Topic(n['labels'], n['qid'], n['descs'],
-                     score, t_type)
+                     n['uris'], score, t_type)
 
     def __eq__(self, other):
         if not isinstance(other, Topic):
