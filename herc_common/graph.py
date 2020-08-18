@@ -75,9 +75,10 @@ class WikidataGraphBuilder():
         will be added to the default list of properties of the graph builder.
     """
 
-    def __init__(self, max_hops=2, additional_props=None):
+    def __init__(self, max_hops=2, additional_props=None, languages=['en', 'es']):
         self.entities_cache = {}
         self.max_hops = max_hops
+        self.languages = languages
         self.props_to_expand = WIKIDATA_PROPS_EXPAND
         if additional_props:
             self.props_to_expand += additional_props
@@ -113,8 +114,10 @@ class WikidataGraphBuilder():
             graph.add_node(term_id)
             #graph.nodes[term_id]['alias'] = _get_aliases(entity_info)
             graph.nodes[term_id]['qid'] = term_id
-            graph.nodes[term_id]['desc'] = _get_desc(entity_info)
-            graph.nodes[term_id]['label'] = _get_labels(entity_info)
+            graph.nodes[term_id]['descs'] = {lang: _get_desc(entity_info, lang)
+                for lang in self.languages}
+            graph.nodes[term_id]['labels'] = {lang: _get_labels(entity_info, lang)
+                for lang in self.languages}
             graph.nodes[term_id]['n'] = curr_hop
 
         if prev_node is not None and not graph.has_edge(prev_node, term_id):

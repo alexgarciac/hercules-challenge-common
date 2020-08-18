@@ -14,15 +14,15 @@ from .graph import get_centrality_algorithm_results, get_largest_connected_subgr
 
 @dataclass
 class Topic():
-    label: str
+    labels: dict
     qid: str
-    desc: str
+    descs: dict
     score: float
     t_type: str
 
     @classmethod
     def from_node(cls, n, score, t_type):
-        return Topic(n['label'], n['qid'], n['desc'],
+        return Topic(n['labels'], n['qid'], n['descs'],
                      score, t_type)
 
     def __eq__(self, other):
@@ -34,7 +34,10 @@ class Topic():
         return hash(self.qid)
 
     def __str__(self):
-        return f"{self.label} ({self.qid})"
+        return self.labels['en']
+
+    def __repr__(self):
+        return f"{self.labels['en']} ({self.qid})"
 
 
 class LabelledTopicModel(BaseEstimator, TransformerMixin):
@@ -101,7 +104,7 @@ class TopicCombiner(BaseEstimator, TransformerMixin):
                             else topic.score * self.k
                             for topic in doc_topics]
             best_topics_idx = np.argsort(topic_scores)[::-1][:self.max_num_topics]
-            res.append([(doc_topics[idx].label, topic_scores[idx])
+            res.append([(doc_topics[idx], topic_scores[idx])
                         for idx in best_topics_idx])
         return res
 
