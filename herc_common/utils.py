@@ -16,6 +16,7 @@ def add_text_topics_to_graph(uri, c_id, text, topics, g):
     text_element = Literal(text)
     g.add((context_element, NIF.isString, text_element))
     g.add((context_element, NIF.sourceURL, URIRef(uri)))
+    g.add((context_element, NIF.predominantLanguage, Literal('en')))
     for topic, score in topics:
         topic_label = '_'.join(str(topic).split(' '))
         topic_element = URIRef(f"{EDMA}{topic_label}")
