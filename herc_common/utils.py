@@ -19,11 +19,13 @@ def add_text_topics_to_graph(uri, c_id, text, topics, g):
     g.add((context_element, NIF.predominantLanguage, Literal('en')))
     for topic, score in topics:
         topic_label = '_'.join(str(topic).split(' '))
-        topic_element = URIRef(f"{EDMA}{topic_label}")
+        topic_element = BNode()
         g.add((topic_element, RDF.type, NIF.annotation))
         g.add((topic_element, NIF.confidence, Literal(topic.score)))
         for lang, val in topic.labels.items():
             g.add((topic_element, RDFS.label, Literal(val, lang=lang)))
+        for lang, val in topic.descs.items():
+            g.add((topic_element, RDFS.comment, Literal(val, lang=lang)))
         for uri in topic.uris:
             g.add((topic_element, ITSRDF.taIdentRef, URIRef(uri)))
         g.add((context_element, NIF.topic, topic_element))
