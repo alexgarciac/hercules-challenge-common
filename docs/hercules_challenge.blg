@@ -1,0 +1,49 @@
+This is BibTeX, Version 0.99d (TeX Live 2020)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: hercules_challenge.aux
+The style file: splncs04.bst
+Database file #1: bibliography.bib
+Warning--empty booktitle in budanitsky2001semantic
+Warning--empty year in budanitsky2001semantic
+You've used 24 entries,
+            2850 wiz_defined-function locations,
+            737 strings with 9705 characters,
+and the built_in function-call counts, 15020 in all, are:
+= -- 1268
+> -- 498
+< -- 25
++ -- 206
+- -- 180
+* -- 943
+:= -- 1899
+add.period$ -- 38
+call.type$ -- 24
+change.case$ -- 184
+chr.to.int$ -- 0
+cite$ -- 26
+duplicate$ -- 1305
+empty$ -- 1309
+format.name$ -- 203
+if$ -- 3291
+int.to.chr$ -- 0
+int.to.str$ -- 24
+missing$ -- 261
+newline$ -- 78
+num.names$ -- 48
+pop$ -- 522
+preamble$ -- 1
+purify$ -- 138
+quote$ -- 0
+skip$ -- 429
+stack$ -- 0
+substring$ -- 882
+swap$ -- 722
+text.length$ -- 25
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 96
+warning$ -- 2
+while$ -- 125
+width$ -- 26
+write$ -- 242
+(There were 2 warnings)

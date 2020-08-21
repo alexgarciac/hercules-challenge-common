@@ -1,0 +1,126 @@
+\begin{thebibliography}{10}
+\providecommand{\url}[1]{\texttt{#1}}
+\providecommand{\urlprefix}{URL }
+\providecommand{\doi}[1]{https://doi.org/#1}
+
+\bibitem{bhatia2016automatic}
+Bhatia, S., Lau, J.H., Baldwin, T.: Automatic labelling of topics with neural
+  embeddings. arXiv preprint arXiv:1612.05340  (2016)
+
+\bibitem{blei2003latent}
+Blei, D.M., Ng, A.Y., Jordan, M.I.: Latent dirichlet allocation. Journal of
+  machine Learning research  \textbf{3}(Jan),  993--1022 (2003)
+
+\bibitem{budanitsky2001semantic}
+Budanitsky, A., Hirst, G.: Semantic distance in wordnet: An experimental,
+  application-oriented evaluation of five measures
+
+\bibitem{chabchoub2018ficlone}
+Chabchoub, M., Gagnon, M., Zouaq, A.: Ficlone: improving dbpedia spotlight
+  using named entity recognition and collective disambiguation. Open Journal of
+  Semantic Web (OJSW)  \textbf{5}(1),  12--28 (2018)
+
+\bibitem{chen2016survey}
+Chen, T.H., Thomas, S.W., Hassan, A.E.: A survey on the use of topic models
+  when mining software repositories. Empirical Software Engineering
+  \textbf{21}(5),  1843--1919 (2016)
+
+\bibitem{cimiano2016lexicon}
+Cimiano, P., McCrae, J.P., Buitelaar, P.: Lexicon model for ontologies:
+  Community report. W3C Ontology-Lexicon Community Group  (2016)
+
+\bibitem{cimiano2015linked}
+Cimiano, P., McCrae, J.P., Rodr{\'\i}guez-Doncel, V., Gornostay, T.,
+  G{\'o}mez-P{\'e}rez, A., Siemoneit, B., Lagzdins, A.: Linked terminologies:
+  applying linked data principles to terminological resources. In: Proceedings
+  of the eLex 2015 Conference. pp. 504--517 (2015)
+
+\bibitem{deerwester1990indexing}
+Deerwester, S., Dumais, S.T., Furnas, G.W., Landauer, T.K., Harshman, R.:
+  Indexing by latent semantic analysis. Journal of the American society for
+  information science  \textbf{41}(6),  391--407 (1990)
+
+\bibitem{gallagher2017anchored}
+Gallagher, R.J., Reing, K., Kale, D., Ver~Steeg, G.: Anchored correlation
+  explanation: Topic modeling with minimal domain knowledge. Transactions of
+  the Association for Computational Linguistics  \textbf{5},  529--542 (2017)
+
+\bibitem{hellmann2013integrating}
+Hellmann, S., Lehmann, J., Auer, S., Br{\"u}mmer, M.: Integrating nlp using
+  linked data. In: International semantic web conference. pp. 98--113. Springer
+  (2013)
+
+\bibitem{hofmann2013probabilistic}
+Hofmann, T.: Probabilistic latent semantic analysis. arXiv preprint
+  arXiv:1301.6705  (2013)
+
+\bibitem{hulpus2013unsupervised}
+Hulpus, I., Hayes, C., Karnstedt, M., Greene, D.: Unsupervised graph-based
+  topic labelling using dbpedia. In: Proceedings of the sixth ACM international
+  conference on Web search and data mining. pp. 465--474 (2013)
+
+\bibitem{hyvarinen2000independent}
+Hyv{\"a}rinen, A., Oja, E.: Independent component analysis: algorithms and
+  applications. Neural networks  \textbf{13}(4-5),  411--430 (2000)
+
+\bibitem{jelodar2019natural}
+Jelodar, H., Wang, Y., Rabbani, M., Ayobi, S.: Natural language processing via
+  lda topic model in recommendation systems. arXiv preprint arXiv:1909.09551
+  (2019)
+
+\bibitem{jelodar2019latent}
+Jelodar, H., Wang, Y., Yuan, C., Feng, X., Jiang, X., Li, Y., Zhao, L.: Latent
+  dirichlet allocation (lda) and topic modeling: models, applications, a
+  survey. Multimedia Tools and Applications  \textbf{78}(11),  15169--15211
+  (2019)
+
+\bibitem{lau2010best}
+Lau, J.H., Newman, D., Karimi, S., Baldwin, T.: Best topic word selection for
+  topic labelling. In: Coling 2010: Posters. pp. 605--613 (2010)
+
+\bibitem{lewis2019bart}
+Lewis, M., Liu, Y., Goyal, N., Ghazvininejad, M., Mohamed, A., Levy, O.,
+  Stoyanov, V., Zettlemoyer, L.: Bart: Denoising sequence-to-sequence
+  pre-training for natural language generation, translation, and comprehension.
+  arXiv preprint arXiv:1910.13461  (2019)
+
+\bibitem{mei2007automatic}
+Mei, Q., Shen, X., Zhai, C.: Automatic labeling of multinomial topic models.
+  In: Proceedings of the 13th ACM SIGKDD international conference on Knowledge
+  discovery and data mining. pp. 490--499 (2007)
+
+\bibitem{mendes2011dbpedia}
+Mendes, P.N., Jakob, M., Garc{\'\i}a-Silva, A., Bizer, C.: Dbpedia spotlight:
+  shedding light on the web of documents. In: Proceedings of the 7th
+  international conference on semantic systems. pp.~1--8 (2011)
+
+\bibitem{neumann-etal-2019-scispacy}
+Neumann, M., King, D., Beltagy, I., Ammar, W.: {S}cispa{C}y: {F}ast and
+  {R}obust {M}odels for {B}iomedical {N}atural {L}anguage {P}rocessing. In:
+  Proceedings of the 18th BioNLP Workshop and Shared Task. pp. 319--327.
+  Association for Computational Linguistics, Florence, Italy (Aug 2019).
+  \doi{10.18653/v1/W19-5034}, \url{https://www.aclweb.org/anthology/W19-5034}
+
+\bibitem{sievert2014ldavis}
+Sievert, C., Shirley, K.: Ldavis: A method for visualizing and interpreting
+  topics. In: Proceedings of the workshop on interactive language learning,
+  visualization, and interfaces. pp. 63--70 (2014)
+
+\bibitem{tong2016text}
+Tong, Z., Zhang, H.: A text mining research based on lda topic modelling. In:
+  International Conference on Computer Science, Engineering and Information
+  Technology. pp. 201--210 (2016)
+
+\bibitem{xu2003document}
+Xu, W., Liu, X., Gong, Y.: Document clustering based on non-negative matrix
+  factorization. In: Proceedings of the 26th annual international ACM SIGIR
+  conference on Research and development in information retrieval. pp. 267--273
+  (2003)
+
+\bibitem{younus2014utilizing}
+Younus, A., Qureshi, M.A., Manchanda, P., O’Riordan, C., Pasi, G.: Utilizing
+  microblog data in a topic modelling framework for scientific articles’
+  recommendation. In: International Conference on Social Informatics. pp.
+  384--395. Springer (2014)
+
+\end{thebibliography}
