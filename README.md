@@ -9,7 +9,7 @@ The Herculles challenge is a part of EDMA, which belongs to the data enrichment 
 ## Directory structure
 This repository is structured as follows:
 * __docs__: Source code of the paper presented as part of the challenge.
-* __src__: Source code shared amongst the different tracks.
+* __herc_common__: Source code shared amongst the different tracks.
 
 ## Track repositories
 The following repositories contain code for each track of the challenge:
