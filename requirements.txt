@@ -1,5 +1,6 @@
 bokeh==2.1.1
 matplotlib==3.2.2
+networkx
 numpy==1.19.0
 pandas==1.0.5
 rdflib
